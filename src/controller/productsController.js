@@ -11,10 +11,10 @@ const getAllProductsController = async (req, res) => {
         const { avatar } = req.session
         const { role } = req.session
         //en este controller debo capturar el id de carrito del user para usarlo en el llamado a los metodos de cart.
-        // console.log(req.user.username)
-        // console.log(req.user._id)
-        console.log("**********session.userId************",req.session.userId)
-        console.log("----------session.cartId------------",req.session.cartId)
+        // logger.info(req.user.username)
+        // logger.info(req.user._id)
+        logger.info("*session.userId*",req.session.userId)
+        logger.info("-session.cartId-",req.session.cartId)
         
         const products = await productDAO.getAll()
         const plantilla = validateAdmin(role)
@@ -64,4 +64,24 @@ const postNewProduct = async (req, res) => {
     }
 }
 
-export { getAllProductsController, getOneProductController, postNewProduct }
+const deleteOneProductController = async (req, res) => {
+    try {
+        const { cartId } = req.session
+        const { email } = req.user
+        const { avatar } = req.session
+        const { role } = req.session
+
+        const { product_id } = req.params
+        await productDAO.deleteById(product_id)
+
+        const plantilla = validateAdmin(role)
+
+        res.render(plantilla, { email, products, cartId, avatar })
+        logger.info(`Producto con id ${product_id} eliminado`)
+    } catch (error) {
+        logger.error(error)
+        res.redirect('/api/products/all')
+    }
+}
+
+export { getAllProductsController, getOneProductController, postNewProduct, deleteOneProductController }

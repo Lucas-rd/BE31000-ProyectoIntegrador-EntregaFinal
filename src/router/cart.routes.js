@@ -8,6 +8,7 @@ router.get('/:id/products', cartControllerGet)
 router.post('/:cart_id/product_id/:product_id', cartControllerInsertProduct )
 router.get('/usercart', cartControllerGetUserCart)
 router.post('/purchase', cartControllerPurchase)
+router.post('/delete/:productId', cartControllerProductDelete)
 
 router.post('/', cartControllerPost)
 router.post('/:id/products', cartControllerProductsPost)

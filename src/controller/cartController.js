@@ -1,5 +1,6 @@
 import { CartDAO } from "../DAO/cartDAO.js";
 import { ProductDAO } from "../DAO/productDAO.js";
+import logger from "../utils/logger.js";
 import { mailOptions, transporter } from "../utils/nodemailer.js";
 import { smsClient, smsOptions } from "../utils/twilioSms.js";
 import { whatsappClient, whatsappOptions } from "../utils/twilioWatsapp.js";
@@ -14,7 +15,7 @@ const cartControllerGet = async (req, res) => {
 
         res.send(cartResponse)
     } catch (error) {
-        console.log(error)
+        logger.error(error)
     }
 }
 
@@ -43,12 +44,12 @@ const cartControllerInsertProduct = async (req, res) => {
 
         //actualizamos el carrito del user
         await cartDAO.updateDocument(cartId, cartToUpdate)
-        console.log(`Producto ${productId} agregado al carrito`)
+        logger.info(`Producto ${productId} agregado al carrito`)
 
         res.redirect("/api/user/login")
 
     } catch (error) {
-        console.log(error)
+        logger.error(error)
     }
 }
 
@@ -74,7 +75,7 @@ const cartControllerGetUserCart = async (req, res) => {
             
         res.render("plantillaCart.ejs", { productsInCart })
     } catch (error) {
-        console.log(error)
+        logger.error(error)
     }
 }
 
@@ -133,7 +134,7 @@ const cartControllerPurchase = async (req, res) => {
         //redireccion al home del user
         res.redirect("/api/user/login")
     } catch (error) {
-        console.log(error)
+        logger.error(error)
     }
 }
 
@@ -143,7 +144,7 @@ const cartControllerPost = async (req, res) => {
 
         res.send(`Carrito insertado en la base con id: ${cartResponse} :)`)
     } catch (error) {
-        console.log(error)
+        logger.error(error)
     }
 }
 
@@ -157,7 +158,7 @@ const cartControllerProductsPost = async (req, res) => {
         res.send(cartResponse)
 
     } catch (error) {
-         console.log(error)
+        logger.error(error)
     }
 }
 
@@ -168,21 +169,22 @@ const cartControllerDelete = async (req, res) => {
 
         res.send(cartResponse)
     } catch (error) {
-        console.log(error)
+        logger.error(error)
     }
 }
 
 const cartControllerProductDelete = async (req, res) => {
     try {
-        const cartId = req.params.id
-        const productId = req.params.id_prod
+        const { cartId } = req.session
+        const { productId } = req.params
+        
+        logger.info(`Producto con id ${productId} eliminado del carrito`)
 
-        const cartResponse = await cartDAO.deleteProductInCart(cartId, productId)
-
-        res.send(cartResponse)
+        await cartDAO.deleteProductInCart(cartId, productId)
+        res.redirect('/api/carts/usercart')
         
     } catch (error) {
-        console.log(error)
+        logger.error(error)
     }
 }
 
