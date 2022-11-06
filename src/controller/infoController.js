@@ -11,7 +11,8 @@ const infoController = async(req, res) => {
       pathExec: process.execPath,
       processId: process.pid,
       capetaProyecto: process.cwd(),
-      cantCpus: os.cpus().length
+      cantCpus: os.cpus().length,
+      bbddName: `MongoDB: ${args.bbddName}`
     }
     // console.log("Info del servidor:", info)
     res.render('plantillaInfo.ejs', { info })

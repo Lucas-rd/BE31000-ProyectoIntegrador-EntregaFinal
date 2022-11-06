@@ -19,7 +19,6 @@ router.use("/products", productRouter)
 //Rutas de carritos
 router.use("/carts", cartRouter)
 
-
 //Rutas '*'
 router.get('*', (req, res) => { logger.warn(`Ruta ${req.url} con metodo ${req.method} no implementadas en el servidor.`) })
 

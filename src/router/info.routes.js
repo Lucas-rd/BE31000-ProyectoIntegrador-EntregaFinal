@@ -9,7 +9,7 @@ router.get('/products-test', productsTest)
 router.get('/info', infoController)
 router.get('/randoms', randomsController)
 router.get("/hola", (req, res) => {
-    res.send("hoola".repeat(1000000))
+    res.send("hola".repeat(1000000))
 })
 
 export default router
