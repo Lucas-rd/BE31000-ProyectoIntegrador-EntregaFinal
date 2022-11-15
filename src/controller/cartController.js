@@ -56,9 +56,12 @@ const cartControllerInsertProduct = async (req, res) => {
 const cartControllerGetUserCart = async (req, res) => {
     try {
         const { products } = await cartDAO.getByUserId(req.session.userId)
-            
+        console.log("PRODUCTS---------------", products)
+
             const ProductsPromises = await products.map( async (product) => {
                 const productData = await productDAO.getById(product.productId)
+                console.log("product.productId++++++++++++++++",product.productId)
+                console.log("productData++++++++++++++++",productData)
                 return {
                     productId : productData._id,
                     title : productData.title,
@@ -69,10 +72,13 @@ const cartControllerGetUserCart = async (req, res) => {
                 }
             })
 
+            console.log("ProductsPromises+++++++++++++++++++++++++",ProductsPromises)
+
             const productsInCart = await Promise.all(ProductsPromises)
 
             req.session.productsInCart = productsInCart
             
+            console.log("PRODUCTS IN CAR:----------------------", productsInCart)
         res.render("plantillaCart.ejs", { productsInCart })
     } catch (error) {
         logger.error(error)

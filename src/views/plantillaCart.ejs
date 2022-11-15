@@ -25,32 +25,31 @@
             </div>
         </nav>
         <div>
-                <div id="productos"></div>
-            </div>
-            <h1>Tu carrito :)</h1>
-            <table class="table table-hover">
-        <thead>    
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Price</th>
-                <th scope="col">Description</th>
-                <th scope="col">Image</th>
-                <th scope="col">Stock</th>
-                <th scope="col">add Cart</th>
-                <th scope="col">delete Product</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% productsInCart.forEach(producto => { %>
+           <div id="productos"></div>
+        </div>
+        <h1>Tu carrito :)</h1>
+        <table class="table table-hover">
+            <thead>    
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">delete Product</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% productsInCart.forEach(producto => { %>
                 <tr class="table-primary">
                     <td><%= producto.title %> </td>
-                <td><img src="<%= producto.thumbnail %>" alt=""> </td>
-                <td>U$S <%= producto.price %> </td>
-                <td><%= producto.quantity %> </td>
-                <td>U$S <%= (producto.total) %> </td>
-                <td><form action="/api/carts/delete/<%=producto.productId%>" method="POST"><input type="submit" value="Delete Product"></form></td>
+                    <td><img src="<%= producto.thumbnail %>" alt=""> </td>
+                    <td>U$S <%= producto.price %> </td>
+                    <td><%= producto.quantity %> </td>
+                    <td>U$S <%= (producto.total) %> </td>
+                    <td><form action="/api/carts/delete/<%=producto.productId%>" method="POST"><input type="submit" value="Delete Product"></form></td>
                 </tr>
-                <% }) %>  
+                    <% }) %>  
             </tbody>
         </table>
     </section>
