@@ -56,29 +56,20 @@ const cartControllerInsertProduct = async (req, res) => {
 const cartControllerGetUserCart = async (req, res) => {
     try {
         const { products } = await cartDAO.getByUserId(req.session.userId)
-        console.log("PRODUCTS---------------", products)
+        const ProductsPromises = await products.map( async (product) => {
+            const productData = await productDAO.getById(product.productId)
+            return {
+                productId : productData._id,
+                title : productData.title,
+                thumbnail : productData.thumbnail,
+                price : productData.price,
+                quantity : product.quantity,
+                total : productData.price * product.quantity
+            }
+        })
+        const productsInCart = await Promise.all(ProductsPromises)
 
-            const ProductsPromises = await products.map( async (product) => {
-                const productData = await productDAO.getById(product.productId)
-                console.log("product.productId++++++++++++++++",product.productId)
-                console.log("productData++++++++++++++++",productData)
-                return {
-                    productId : productData._id,
-                    title : productData.title,
-                    thumbnail : productData.thumbnail,
-                    price : productData.price,
-                    quantity : product.quantity,
-                    total : productData.price * product.quantity
-                }
-            })
-
-            console.log("ProductsPromises+++++++++++++++++++++++++",ProductsPromises)
-
-            const productsInCart = await Promise.all(ProductsPromises)
-
-            req.session.productsInCart = productsInCart
-            
-            console.log("PRODUCTS IN CAR:----------------------", productsInCart)
+        req.session.productsInCart = productsInCart
         res.render("plantillaCart.ejs", { productsInCart })
     } catch (error) {
         logger.error(error)
