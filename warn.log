@@ -37,3 +37,4 @@
 {"level":"error","message":"Id product didn't found :( Cannot read properties of undefined (reading 'length')","stack":"TypeError: Cannot read properties of undefined (reading 'length')\n    at getOneProductController (file:///C:/Users/lrodrdov/Desktop/Cursos/coderhouse/CursoBE/proyectoIntegrador/BE31000-ProyectoIntegrador-EntregaFinal/src/controller/productsController.js:37:21)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"}
 {"level":"error"}
 {"level":"error"}
+{"level":"warn","message":"Ruta /user/info con metodo GET no implementadas en el servidor."}

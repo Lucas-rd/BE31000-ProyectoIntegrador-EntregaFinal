@@ -22,7 +22,7 @@ const registerStrategy = new LocalStrategy(
                 lastName: req.body.lastName,
                 email: req.body.email,
                 phoneNumber: req.body.phoneNumber ,
-                avatar: `http://localhost:${enviroment.PORT}/${req.file.filename}`,
+                avatar: `https://proy-int-mtg-ecommerce.herokuapp.com/${req.file.filename}`,
                 role: 'user'
             }
             const createdUser = await User.create(newUser)
